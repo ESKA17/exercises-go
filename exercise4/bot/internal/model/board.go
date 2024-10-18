@@ -66,7 +66,7 @@ func (b *Board) calculateNewPosition(token Token) int {
 		for i := 0; i < 9; i++ {
 			if newBoard[i] == TokenEmpty {
 				newBoard[i] = TokenX
-				score := minimax(newBoard, false)
+				score := minimax(newBoard, 0, false)
 				newBoard[i] = TokenEmpty
 
 				if score > best {
@@ -80,7 +80,7 @@ func (b *Board) calculateNewPosition(token Token) int {
 		for i := 0; i < 9; i++ {
 			if newBoard[i] == TokenEmpty {
 				newBoard[i] = TokenO
-				score := minimax(newBoard, true)
+				score := minimax(newBoard, 0, true)
 				newBoard[i] = TokenEmpty
 
 				if score < best {
@@ -94,7 +94,7 @@ func (b *Board) calculateNewPosition(token Token) int {
 	return bestMove
 }
 
-func minimax(board *Board, isMax bool) int {
+func minimax(board *Board, depth int, isMax bool) int {
 	score, isTie := checkWinner(board)
 
 	if score == TokenX {
@@ -115,22 +115,22 @@ func minimax(board *Board, isMax bool) int {
 		for i := 0; i < 9; i++ {
 			if board[i] == TokenEmpty {
 				board[i] = TokenX
-				best = maxScore(best, minimax(board, false))
+				best = maxScore(best, minimax(board, depth+1, false))
 				board[i] = TokenEmpty
 			}
 		}
-		return best
+		return best - depth
 	} else {
 		// If this minimizer's or TokenO's move
 		best := 1000
 		for i := 0; i < 9; i++ {
 			if board[i] == TokenEmpty {
 				board[i] = TokenO
-				best = minScore(best, minimax(board, true))
+				best = minScore(best, minimax(board, depth+1, true))
 				board[i] = TokenEmpty
 			}
 		}
-		return best
+		return best + depth
 	}
 }
 
