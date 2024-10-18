@@ -98,11 +98,11 @@ func minimax(board *Board, depth int, isMax bool) int {
 	score, isTie := checkWinner(board)
 
 	if score == TokenX {
-		return 10
+		return 100
 	}
 
 	if score == TokenO {
-		return -10
+		return -100
 	}
 
 	if score == TokenEmpty && isTie {
@@ -168,7 +168,7 @@ func checkWinner(board *Board) (Token, bool) {
 			winner = TokenO
 		}
 	}
-	if board[1] == board[4] && board[4] == board[7] && board[1] != TokenO {
+	if board[1] == board[4] && board[4] == board[7] && board[1] != TokenEmpty {
 		if board[1] == TokenX {
 			winner = TokenX
 		} else {
